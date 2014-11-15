@@ -1,8 +1,11 @@
 package com.flavienlaurent.vdh;
 
+import com.nineoldandroids.view.ViewHelper;
+
 import android.content.Context;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewCompatKitKat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -78,12 +81,11 @@ public class YoutubeLayout extends ViewGroup {
 
 			mDragOffset = (float) top / mDragRange;
 
-            mHeaderView.setPivotX(mHeaderView.getWidth());
-            mHeaderView.setPivotY(mHeaderView.getHeight());
-            mHeaderView.setScaleX(1 - mDragOffset / 2);
-            mHeaderView.setScaleY(1 - mDragOffset / 2);
-
-            mDescView.setAlpha(1 - mDragOffset);
+			ViewHelper.setPivotX(mHeaderView, mHeaderView.getWidth());
+			ViewHelper.setPivotY(mHeaderView, mHeaderView.getHeight());
+			ViewHelper.setScaleX(mHeaderView, 1 - mDragOffset / 2);
+			ViewHelper.setScaleY(mHeaderView, 1 - mDragOffset / 2);
+			ViewHelper.setAlpha(mDescView, 1 - mDragOffset);
 
             requestLayout();
 		}
@@ -215,8 +217,8 @@ public class YoutubeLayout extends ViewGroup {
         int maxWidth = MeasureSpec.getSize(widthMeasureSpec);
         int maxHeight = MeasureSpec.getSize(heightMeasureSpec);
 
-        setMeasuredDimension(resolveSizeAndState(maxWidth, widthMeasureSpec, 0),
-                resolveSizeAndState(maxHeight, heightMeasureSpec, 0));
+        setMeasuredDimension(ViewCompat.resolveSizeAndState(maxWidth, widthMeasureSpec, 0),
+        		ViewCompat.resolveSizeAndState(maxHeight, heightMeasureSpec, 0));
     }
 
     @Override
